@@ -1,0 +1,4 @@
+rootProject.name = 'obm-parent'
+include 'server'
+include 'web'
+
