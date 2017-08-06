@@ -25,7 +25,7 @@ public class UserController {
         UsernamePasswordToken token = new UsernamePasswordToken(model.getUsername(), model.getPasswd());
         try {
             SecurityUtils.getSubject().login(token);
-            logger.info("登录成功---------------");
+            logger.info("{},登录成功",model.getUsername());
         } catch (UnknownAccountException uae) {
             logger.error("There is no user with username of " + token.getPrincipal());
         } catch (IncorrectCredentialsException ice) {
