@@ -1,4 +1,4 @@
-package com.obm.redis;
+package com.obm.common.config.redis;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -10,15 +10,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-
-@Component
+//@Component
 public class RedisSessionDao extends EnterpriseCacheSessionDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(RedisSessionDao.class);
     // session time out 30 minute *60 second
-    private static int expireTime = 1800;
+    private static int expireTime = 30;
 
-    private static  String prefix = "obm-shiro-session";
+    private static  String prefix = "obm-shiro-session-";
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
 
@@ -33,7 +32,7 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO{
 
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        logger.debug("从缓存中获取sesion：{}",sessionId);
+        logger.info("从缓存中获取sesion：{}",sessionId);
         // 从缓存中获取session，如果没有则从数据库中获取
         Session session = super.doReadSession(sessionId);
         if(session == null){
@@ -46,18 +45,18 @@ public class RedisSessionDao extends EnterpriseCacheSessionDAO{
     @Override
     protected void doUpdate(Session session) {
         super.doUpdate(session);
-        logger.debug("从缓存中获取sesion：{}",session.getId());
+        logger.info("从缓存中获取sesion：{}",session.getId());
         String key = prefix+session.getId();
         if(!redisTemplate.hasKey(key)){
             redisTemplate.opsForValue().set(key,session);
         }
-        redisTemplate.expire(key,expireTime, TimeUnit.SECONDS);
+        redisTemplate.expire(key,expireTime, TimeUnit.MINUTES);
 
     }
 
     @Override
     protected void doDelete(Session session) {
-        logger.debug("从缓存中删除sesion：{}",session.getId());
+        logger.info("从缓存中删除sesion：{}",session.getId());
         super.doDelete(session);
         redisTemplate.delete(prefix+session.getId().toString());
     }

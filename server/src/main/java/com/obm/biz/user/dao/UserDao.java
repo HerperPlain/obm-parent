@@ -1,7 +1,6 @@
-package com.obm.user.dao;
+package com.obm.biz.user.dao;
 
-import com.obm.user.entity.UserEntity;
-import org.apache.ibatis.annotations.Param;
+import com.obm.biz.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.obm.redis;
+package com.obm.common.config.redis;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
@@ -16,7 +16,6 @@ public class RedisCacheManager implements CacheManager{
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
         return new ShiroCache<K , V>(name,redisTemplate);
     }
-
     public RedisTemplate<String, Object> getRedisTemplate() {
         return redisTemplate;
     }

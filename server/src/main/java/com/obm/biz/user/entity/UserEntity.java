@@ -1,11 +1,13 @@
-package com.obm.user.entity;
+package com.obm.biz.user.entity;
+
+import com.obm.common.entity.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "sys_user")
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     @Id
     @Column(name = "user_id")
     private String userId;
@@ -19,16 +21,6 @@ public class UserEntity {
     private String email;
     @Column(name = "enable")
     private boolean enable;
-    @Column(name = "show_order")
-    private int showOrder;
-    @Column(name = "create_user")
-    private String createUser;
-    @Column(name = "create_time")
-    private Date createTime;
-    @Column(name = "update_user")
-    private String updateUser;
-    @Column(name = "update_time")
-    private Date updateTime;
     @Column(name = "last_login_time")
     private Date lastLoginTime;
     @Column(name = "last_login_ip")
@@ -82,46 +74,6 @@ public class UserEntity {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
-    }
-
-    public int getShowOrder() {
-        return showOrder;
-    }
-
-    public void setShowOrder(int showOrder) {
-        this.showOrder = showOrder;
-    }
-
-    public String getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateUser() {
-        return updateUser;
-    }
-
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public Date getLastLoginTime() {

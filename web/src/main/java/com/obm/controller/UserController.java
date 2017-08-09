@@ -1,12 +1,9 @@
 package com.obm.controller;
-import com.obm.user.entity.UserEntity;
-import com.obm.user.service.UserService;
+import com.obm.biz.user.entity.UserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,6 +35,6 @@ public class UserController {
         catch (AuthenticationException ae) {
             logger.error("登录失败：{}",ae.getMessage());
         }
-        return "redirect:admin/index.html";
+        return "index";
     }
 }

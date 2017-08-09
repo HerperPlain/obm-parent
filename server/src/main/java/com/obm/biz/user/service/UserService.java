@@ -1,6 +1,6 @@
-package com.obm.user.service;
+package com.obm.biz.user.service;
 
-import com.obm.user.entity.UserEntity;
+import com.obm.biz.user.entity.UserEntity;
 
 public interface UserService {
 

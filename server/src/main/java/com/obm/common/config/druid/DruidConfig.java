@@ -1,4 +1,4 @@
-package com.obm.druid;
+package com.obm.common.config.druid;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

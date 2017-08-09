@@ -1,13 +1,14 @@
-package com.obm.shiro;
+package com.obm.common.config.shiro;
 
 import com.obm.common.util.StringUtils;
-import com.obm.user.entity.UserEntity;
-import com.obm.user.service.UserService;
+import com.obm.biz.user.entity.UserEntity;
+import com.obm.biz.user.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,17 +39,19 @@ public class UserRealm  extends AuthorizingRealm{
         SimpleAuthorizationInfo info =  new SimpleAuthorizationInfo();
         //实际开发，当前登录用户的角色和权限信息是从数据库来获取的，我这里写死是为了方便测试
         Set<String> roleSet = new HashSet<String>();
-        roleSet.add("100002");
-        info.setRoles(roleSet);
-        //根据用户ID查询权限（permission），放入到Authorization里。
-    /*List<SysPermission> permissionList = sysPermissionService.selectByMap(map);
-    Set<String> permissionSet = new HashSet<String>();
-    for(SysPermission Permission : permissionList){
-        permissionSet.add(Permission.getName());
-    }*/
-        Set<String> permissionSet = new HashSet<String>();
-        permissionSet.add("权限添加");
-        info.setStringPermissions(permissionSet);
+//        roleSet.add("admin");
+//        info.setRoles(roleSet);
+//        //根据用户ID查询权限（permission），放入到Authorization里。
+//        List<SysPermission> permissionList = sysPermissionService.selectByMap(map);
+//        Set<String> permissionSet = new HashSet<String>();
+//        for(SysPermission Permission : permissionList){
+//            permissionSet.add(Permission.getName());
+//        }
+//        Set<String> permissionSet = new HashSet<String>();
+//        permissionSet.add("admin/index.html");
+//        permissionSet.add("admin/user_list.html");
+//        permissionSet.add("admin/reports.html");
+//        info.setStringPermissions(permissionSet);
         //角色权限加载
         return info;
     }

@@ -1,4 +1,4 @@
-package com.obm.redis;
+package com.obm.common.config.redis;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class ShiroCache<K,V> implements Cache<K , V> {
-    private static final String REDIS_SHIRO_CACHE = "obm-shiro-cache";
+    private static final String REDIS_SHIRO_CACHE = "obm-shiro-cache-";
     private String cacheKey;
     private RedisTemplate<K , V> redisTemplate;
     private long globExpire = 30;

@@ -1,5 +1,6 @@
-package com.obm.redis;
+package com.obm.common.config.redis;
 
+import org.apache.shiro.session.mgt.AbstractSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -17,8 +18,8 @@ public class RedisConfig {
     @Bean
     public CacheManager cacheManager(RedisTemplate<Object,Object> redisTemplate){
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        cacheManager.setDefaultExpiration(1800);
-        logger.info("初始化缓存管理器：加载redis模板…………………………………………………………^_^");
+        cacheManager.setDefaultExpiration(AbstractSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+        logger.info("初始化缓存管理器：加载redis模板^_^");
         return cacheManager;
     }
     @Bean
@@ -28,7 +29,7 @@ public class RedisConfig {
         // 设置key value的类型
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new RedisObjectSerializer());
-        logger.info("初始化redis模板：模板用于操作redis，增删改查…………………………………………………………^_^");
+        logger.info("初始化redis模板：模板用于操作redis，增删改查^_^");
         return template;
     }
 }

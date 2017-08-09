@@ -1,4 +1,4 @@
-package com.obm.redis;
+package com.obm.common.config.redis;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.serializer.support.DeserializingConverter;

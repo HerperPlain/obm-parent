@@ -1,9 +1,9 @@
-package com.obm.shiro;
+package com.obm.common.config.shiro;
 
-import com.obm.redis.RedisCacheManager;
-import com.obm.redis.RedisSessionDao;
-import org.apache.shiro.mgt.DefaultSecurityManager;
+import com.obm.common.config.redis.RedisCacheManager;
+import com.obm.common.config.redis.RedisSessionDao;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.AbstractSessionManager;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -22,8 +23,12 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
     private static final Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
-    @Resource
-    private RedisSessionDao sessionDao;
+
+
+    @Bean
+    public RedisSessionDao redisSessionDao(){
+        return new RedisSessionDao();
+    };
 
     @Bean
     public UserRealm getUserRealm(){
@@ -38,27 +43,31 @@ public class ShiroConfig {
         return  new RedisCacheManager();
     }
 
-//    @Bean
-//    public SessionManager sessionManager(){
-//        logger.info("创建默认的sessionManager");
-//        DefaultSessionManager sessionManager = new DefaultSessionManager();
-//        logger.info("给默认的sessionManager初始化redisCacheManager类：用来进行redis中ShiroCache操作");
-//        sessionManager.setCacheManager(redisCacheManager());
-//        logger.info("给默认的sessionManager初始化sessionDao类：用来进行redis中session操作");
-//        sessionManager.setSessionDAO(sessionDao);
-//        sessionManager.setGlobalSessionTimeout(1800);
-//        return sessionManager;
-//    }
+    @Bean
+    public SessionManager sessionManager(){
+        logger.info("创建默认的sessionManager");
+        DefaultSessionManager sessionManager = new DefaultSessionManager();
+        logger.info("给默认的sessionManager初始化sessionDao类：用来进行redis中session操作");
+        sessionManager.setSessionDAO(redisSessionDao());
+        logger.info("给默认的sessionManager添加session过期时间30分钟");
+        sessionManager.setGlobalSessionTimeout(AbstractSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+        logger.info("给默认的sessionManager初始化redisCacheManager类：用来进行redis中ShiroCache操作");
+        sessionManager.setCacheManager(redisCacheManager());
+//        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
+//        listeners.add(new MySessionListener());
+//        sessionManager.setSessionListeners(listeners);
+        return sessionManager;
+    }
 
 
     @Bean
-    public SecurityManager securityManager(){
+    public DefaultWebSecurityManager securityManager(){
         logger.info("创建默认的DefaultWebSecurityManager");
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         logger.info("给默认的DefaultWebSecurityManager初始化sessionManager");
-//        securityManager.setSessionManager(sessionManager());
+        securityManager.setSessionManager(sessionManager());
         logger.info("给默认的DefaultWebSecurityManager初始化redisCacheManager");
-//        securityManager.setCacheManager(redisCacheManager());
+        securityManager.setCacheManager(redisCacheManager());
         logger.info("给默认的DefaultWebSecurityManager初始化登录处理方法");
         securityManager.setRealm(getUserRealm());
         return  securityManager;
@@ -83,13 +92,12 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager());
         shiroFilterFactoryBean.setLoginUrl("/");
         shiroFilterFactoryBean.setSuccessUrl("/doLogin");
-//        filterChainDefinitionMap.put("/**","authc");
-        filterChainDefinitionMap.put("/admin/**","authc");
-        filterChainDefinitionMap.put("/login/**","anon");
         //数据库链接池监控界面
         filterChainDefinitionMap.put("/druid/**","authc");
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/admin/*.html","authc");
+        filterChainDefinitionMap.put("/**", "anon");
         // 未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
