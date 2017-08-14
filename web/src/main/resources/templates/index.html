@@ -72,6 +72,9 @@
 </div>
 <!-- /subnavbar -->
 <div class="container">
+  <div class="content">
+
+
   <fieldset>
     <legend>查询区域</legend>
     <form class="form-horizontal" role="form">
@@ -90,7 +93,7 @@
         </div>
       </div>
       <div class="form-group row" align="center" style="margin-top: 15px">
-        <input type="button" value="查询" class="btn btn-primary" />
+        <input type="button" value="查询" class="btn btn-primary" v-on:click="pageInit"/>
         <input type="button" value="重置" class="btn btn-danger"/>
       </div>
     </form>
@@ -133,6 +136,7 @@
     </div>
   </div>
 </div>
+</div>
 <script src="/admin/js/jquery-1.7.2.min.js" ></script>
 <script src="/admin/js/bootstrap.js"></script>
 <script src="/admin/js/vue.min.js"></script>
@@ -140,7 +144,7 @@
 var pages;
     window.onload = function () {
        pages =  new Vue({
-            el: ".table",
+            el: ".content",
             data: {
                 tableData: [{index:1,name:"plain",age:18}]
             },methods:{
@@ -159,7 +163,6 @@ var pages;
             }
 
         });
-        pages.pageInit();
     }
 </script>
 </body>
