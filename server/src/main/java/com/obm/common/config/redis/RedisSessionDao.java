@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-//@Component
+@Component
 public class RedisSessionDao extends EnterpriseCacheSessionDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(RedisSessionDao.class);

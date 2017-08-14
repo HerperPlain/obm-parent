@@ -2,7 +2,7 @@ package com.obm.common.config.shiro;
 
 import com.obm.common.config.redis.RedisCacheManager;
 import com.obm.common.config.redis.RedisSessionDao;
-import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.AbstractSessionManager;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -15,9 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-
-import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 @Configuration
@@ -53,9 +52,9 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(AbstractSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
         logger.info("给默认的sessionManager初始化redisCacheManager类：用来进行redis中ShiroCache操作");
         sessionManager.setCacheManager(redisCacheManager());
-//        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-//        listeners.add(new MySessionListener());
-//        sessionManager.setSessionListeners(listeners);
+        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
+        listeners.add(new ShiroSessionListener());
+        sessionManager.setSessionListeners(listeners);
         return sessionManager;
     }
 
@@ -96,7 +95,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/druid/**","authc");
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
-        filterChainDefinitionMap.put("/admin/*.html","authc");
+        filterChainDefinitionMap.put("/admin/*.html","anon");
         filterChainDefinitionMap.put("/**", "anon");
         // 未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");

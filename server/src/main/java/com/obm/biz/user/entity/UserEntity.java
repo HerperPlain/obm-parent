@@ -27,7 +27,16 @@ public class UserEntity extends BaseEntity {
     private String lastLoginIp;
     @Column(name = "head_pic")
     private String headPic;
-
+    @Column(name = "show_order")
+    public int showOrder;
+    @Column(name = "create_user")
+    public String createUser;
+    @Column(name = "create_time")
+    public Date createTime;
+    @Column(name = "update_user")
+    public String updateUser;
+    @Column(name = "update_time")
+    public Date updateTime;
     public String getUserId() {
         return userId;
     }
@@ -100,7 +109,47 @@ public class UserEntity extends BaseEntity {
         this.headPic = headPic;
     }
 
-    public UserEntity(String userId ,String username, String passwd, String nickname, String email, boolean enable, int showOrder, String createUser, Date createTime, String updateUser, Date updateTime, Date lastLoginTime, String lastLoginIp, String headPic) {
+    public int getShowOrder() {
+        return showOrder;
+    }
+
+    public void setShowOrder(int showOrder) {
+        this.showOrder = showOrder;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public UserEntity(String userId , String username, String passwd, String nickname, String email, boolean enable, int showOrder, String createUser, Date createTime, String updateUser, Date updateTime, Date lastLoginTime, String lastLoginIp, String headPic) {
         this.userId=userId;
         this.username = username;
         this.passwd = passwd;

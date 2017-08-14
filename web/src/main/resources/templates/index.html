@@ -104,9 +104,9 @@
     <th>操作</th>
     </thead>
     <tr class="text-center" v-for="item in tableData">
-      <td>{{item.index}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.age}}</td>
+      <td>{{item.userId}}</td>
+      <td>{{item.username}}</td>
+      <td>{{item.passwd}}</td>
       <td>
         <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#layer">删除</button>
       </td>
@@ -137,15 +137,29 @@
 <script src="/admin/js/bootstrap.js"></script>
 <script src="/admin/js/vue.min.js"></script>
 <script>
-
+var pages;
     window.onload = function () {
-        new Vue({
+       pages =  new Vue({
             el: ".table",
             data: {
                 tableData: [{index:1,name:"plain",age:18}]
+            },methods:{
+                pageInit:function(){
+                    $.ajax({
+                        url:"/user/queryList"
+                        ,dataType:"json"
+                        ,success:function (data) {
+                            console.log(data);
+                            pages.tableData=data;
+                        },error : function (data) {
+
+                        }
+                    })
+                }
             }
 
-        })
+        });
+        pages.pageInit();
     }
 </script>
 </body>
